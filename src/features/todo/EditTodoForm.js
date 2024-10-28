@@ -17,7 +17,7 @@ export const EditTodoForm = ({ editTodo, task }) => {
         placeholder="Update task"
       />
       <button type="submit" className="todo-btn">
-        Add Task
+        Adicionar
       </button>
     </form>
   );
