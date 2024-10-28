@@ -6,7 +6,7 @@ import {
   Navigate,
 } from "react-router-dom";
 import AuthPage from "./pages/AuthPage/AuthPage";
-import { TodoWrapper } from "./features/todo/TodoWrapper";
+import { TodoWrapper } from "./pages/HomePage/TodoWrapper";
 
 function App() {
   return (
