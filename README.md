@@ -39,7 +39,7 @@ Após abrir o arquivo index.html, você verá a tela de registro. Siga os passos
   "username": "string",
   "password": "string",
   "email": "string"
-}
+  }
 
 ### POST /api/login
 - Descrição: Faz login de um usuário existente.
@@ -48,4 +48,4 @@ Após abrir o arquivo index.html, você verá a tela de registro. Siga os passos
   {
   "username": "string",
   "password": "string"
-}
+  }
