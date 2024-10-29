@@ -34,6 +34,7 @@ Após abrir o arquivo index.html, você verá a tela de registro. Siga os passos
 ### POST /api/register
 - Descrição: Registra um novo usuário.
 - Corpo da Requisição:
+  ```bash
   {
   "username": "string",
   "password": "string",
@@ -43,6 +44,7 @@ Após abrir o arquivo index.html, você verá a tela de registro. Siga os passos
 ### POST /api/login
 - Descrição: Faz login de um usuário existente.
 - Corpo da Requisição:
+  ```bash
   {
   "username": "string",
   "password": "string"
