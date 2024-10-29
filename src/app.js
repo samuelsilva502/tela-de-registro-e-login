@@ -7,11 +7,13 @@ import {
 } from "react-router-dom";
 import AuthPage from "./pages/AuthPage/AuthPage";
 import { TodoWrapper } from "./pages/HomePage/TodoWrapper";
+import KeepAlive from "./features/Helper/KeepAlive";
 
 function App() {
   return (
     <Router>
       <div>
+        <KeepAlive />
         <Routes>
           <Route path="/auth" element={<AuthPage />} />
           <Route path="/home" element={<TodoWrapper />} />

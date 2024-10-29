@@ -23,14 +23,14 @@ const useAuth = () => {
           const userId = response.data.user.id;
           localStorage.setItem("userId", userId);
           navigate("/home");
-          return true; // Token válido
+          return true;
         }
       } catch (error) {
         console.error("Token inválido ou erro na validação:", error);
-        localStorage.removeItem("authToken"); // Remove token inválido
+        localStorage.removeItem("authToken");
       }
     }
-    return false; // Token inválido ou não existe
+    return false;
   };
 
   return { checkToken };
@@ -49,7 +49,7 @@ function AuthPage() {
   const { checkToken } = useAuth();
 
   useEffect(() => {
-    checkToken(); // Verifica o token ao carregar o componente
+    checkToken();
   }, [checkToken]);
 
   const handleRegister = async (e) => {
@@ -62,7 +62,7 @@ function AuthPage() {
       });
       console.log("Cadastro realizado com sucesso:", response.data);
       alert("Cadastro realizado com sucesso!");
-      loginButtonRef.current.click(); // Alterna para a tela de login
+      loginButtonRef.current.click();
     } catch (error) {
       console.error("Erro ao cadastrar:", error);
       alert("Erro ao cadastrar. Tente novamente.");
