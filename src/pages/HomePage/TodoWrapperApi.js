@@ -4,7 +4,7 @@ import { Todo } from "../../features/todo/Todo";
 import { EditTodoForm } from "../../features/todo/EditTodoForm";
 import axios from "axios";
 
-export const TodoWrapper = () => {
+export const TodoWrapperApi = () => {
   const [todos, setTodos] = useState([]);
   const urlApi = process.env.REACT_APP_API_URL;
 
@@ -25,9 +25,9 @@ export const TodoWrapper = () => {
     const userId = localStorage.getItem("userId");
     try {
       const newTodo = {
-        title: task,
+        title: "teste",
         userId,
-        completed: false,
+        completed: true,
       };
       const response = await axios.post(`${urlApi}/task`, newTodo);
       console.log(response);
@@ -69,13 +69,14 @@ export const TodoWrapper = () => {
     );
   };
 
-  const editTask = async (title, id) => {
+  const editTask = async (task, id) => {
     try {
       const updatedTodo = {
-        title,
+        ...todos.find((todo) => todo.id === id),
+        task,
+        isEditing: false,
       };
-      console.log(updatedTodo, "todo aqui");
-      await axios.patch(`${urlApi}/task/${id}`, updatedTodo);
+      await axios.put(`${urlApi}/task/${id}`, updatedTodo);
       setTodos(todos.map((todo) => (todo.id === id ? updatedTodo : todo)));
     } catch (error) {
       console.error("Erro ao editar tarefa:", error);
@@ -84,9 +85,8 @@ export const TodoWrapper = () => {
 
   return (
     <div className="TodoWrapper">
-      <h1>Todo List</h1>
+      <h1>Get Things Done!</h1>
       <TodoForm addTodo={addTodo} />
-      {todos.forEach((todo) => console.log(todo.title))}
       {todos.map((todo) =>
         todo.isEditing ? (
           <EditTodoForm key={todo.id} editTodo={editTask} task={todo} />
@@ -103,5 +103,3 @@ export const TodoWrapper = () => {
     </div>
   );
 };
-
-export default TodoWrapper;

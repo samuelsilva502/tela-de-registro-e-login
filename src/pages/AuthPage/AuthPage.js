@@ -1,7 +1,40 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import * as Components from "./components";
 import { useNavigate } from "react-router-dom";
+
+const useAuth = () => {
+  const navigate = useNavigate();
+
+  const checkToken = async () => {
+    const token = localStorage.getItem("authToken");
+    if (token) {
+      try {
+        const response = await axios.get(
+          `${process.env.REACT_APP_API_URL}/token`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (response.status === 200) {
+          const userId = response.data.user.id;
+          localStorage.setItem("userId", userId);
+          navigate("/home");
+          return true; // Token válido
+        }
+      } catch (error) {
+        console.error("Token inválido ou erro na validação:", error);
+        localStorage.removeItem("authToken"); // Remove token inválido
+      }
+    }
+    return false; // Token inválido ou não existe
+  };
+
+  return { checkToken };
+};
 
 function AuthPage() {
   const [signIn, toggle] = useState(true);
@@ -13,6 +46,11 @@ function AuthPage() {
   const urlApi = process.env.REACT_APP_API_URL;
   const navigate = useNavigate();
   const loginButtonRef = useRef(null);
+  const { checkToken } = useAuth();
+
+  useEffect(() => {
+    checkToken(); // Verifica o token ao carregar o componente
+  }, [checkToken]);
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -23,9 +61,8 @@ function AuthPage() {
         password,
       });
       console.log("Cadastro realizado com sucesso:", response.data);
-      saveToken(response.data.token);
       alert("Cadastro realizado com sucesso!");
-      loginButtonRef.current.click();
+      loginButtonRef.current.click(); // Alterna para a tela de login
     } catch (error) {
       console.error("Erro ao cadastrar:", error);
       alert("Erro ao cadastrar. Tente novamente.");
@@ -41,10 +78,10 @@ function AuthPage() {
       });
 
       const token = response.data.token;
-
       saveToken(token);
 
       console.log("Login realizado com sucesso!");
+      checkToken();
       alert("Login realizado com sucesso! Você será redirecionado.");
       navigate("/home");
     } catch (error) {
